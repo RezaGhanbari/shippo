@@ -5,6 +5,8 @@ import (
 	pb "shippo/vessel-service/proto/vessel"
 	"errors"
 	"context"
+	"github.com/micro/go-micro"
+	"fmt"
 )
 
 type Repository interface {
@@ -43,4 +45,23 @@ func (s *service) FindAvailable(ctx context.Context, req *pb.Specification, res 
 	// Set the vessel as part of the response message type
 	res.Vessel = vessel
 	return nil
+}
+
+func main() {
+	vessels := []*pb.Vessel{
+		&pb.Vessel{Id: "vessel001", Name: "Boaty McBoatface", MaxWeight: 200000, Capacity: 500},
+	}
+	repo := &VesselRepository{vessels}
+	srv := micro.NewService(
+		micro.Name("go.micro.srv.vessel"),
+		micro.Version("latest"),
+	)
+	srv.Init()
+
+	// Register our implementation with
+	pb.RegisterVesselServiceHandler(srv.Server(), &service{repo})
+
+	if err := srv.Run(); err != nil {
+		fmt.Println(err)
+	}
 }
