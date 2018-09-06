@@ -22,7 +22,7 @@ RUN dep init && dep ensure
 
 # Build the binary, with a few flags which will allow
 # us to run this binary in Alpine.
-RUN CGo_ENABLED=0 GOOS=linux go build -a -installsuffix cgo .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo .
 
 # Here we're using a second FROM statement, which is strange,
 # but this tells Docker to start a new build process with this
@@ -33,8 +33,8 @@ FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 
 # Same as before, create a directory for our app.
-RUN mdkir /app
-RUN workdir /app
+RUN mkdir /app
+WORKDIR /app
 
 # Here, instead of copying the binary from our host machine,
 # we pull the binary from the container named `builder`, within
