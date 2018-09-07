@@ -11,8 +11,6 @@ WORKDIR /go/src/shippo/consignment-service
 # Copy the current code into our workdir
 COPY . .
 
-ENV http_proxy="http://46.105.221.241:33080" \
-        https_proxy="http://46.105.221.241:33080"
 # Here we're pulling in godep, which is a dependency manager tool,
 # we're going to use dep instead of go get, to get around a few
 # quirks in how go get works with sub-packages.
