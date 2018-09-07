@@ -10,7 +10,7 @@ const (
 	consignmentCollection = "consignments"
 )
 
-type Respository interface {
+type Repository interface {
 	Create(*pb.Consignment) error
 	GetAll() ([]*pb.Consignment, error)
 	Close()
@@ -21,7 +21,7 @@ type ConsignmentRepository struct {
 }
 
 // Create a new consignment
-func (repo *ConsignmentRepository) Create(consignment pb.Consignment) error {
+func (repo *ConsignmentRepository) Create(consignment *pb.Consignment) error {
 	return repo.collection().Insert(consignment)
 }
 
